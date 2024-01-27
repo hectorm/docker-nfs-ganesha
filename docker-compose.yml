@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+name: "nfs-ganesha"
+
+# https://hub.docker.com/r/hectorm/nfs-ganesha
+x-nfs-ganesha-image: &nfs-ganesha-image "docker.io/hectorm/nfs-ganesha:latest"
+
+services:
+
+  nfs-ganesha:
+    image: *nfs-ganesha-image
+    restart: "always"
+    container_name: "nfs-ganesha"
+    hostname: "nfs-ganesha"
+    read_only: true
+    cap_drop:
+      - "ALL"
+    cap_add:
+      - "CHOWN"
+      - "DAC_OVERRIDE"
+      - "DAC_READ_SEARCH"
+      - "FOWNER"
+      - "FSETID"
+      - "SETGID"
+      - "SETUID"
+    networks:
+      - "nfs-ganesha"
+    ports:
+      - "127.0.0.1:2049:2049/tcp"
+    volumes:
+      - { type: "tmpfs", target: "/run/" }
+      - { type: "tmpfs", target: "/tmp/" }
+      - { type: "tmpfs", target: "/var/lib/nfs/ganesha/" }
+      - { type: "volume", source: "nfs-ganesha-data", target: "/mnt/" }
+
+volumes:
+
+  nfs-ganesha-data:
+    name: "nfs-ganesha-data"
+
+networks:
+
+  nfs-ganesha:
+    name: "nfs-ganesha"
