@@ -1,9 +1,0 @@
-#!/bin/sh
-
-set -eu
-
-rm -rf /run/dbus/
-mkdir -p /run/dbus/
-
-exec 2>&1
-exec dbus-daemon --system --nofork --nopidfile

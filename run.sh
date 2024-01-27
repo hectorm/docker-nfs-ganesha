@@ -36,10 +36,9 @@ printf '%s\n' "Creating \"${CONTAINER_NAME:?}\" container..."
 	--name "${CONTAINER_NAME:?}" \
 	--hostname "${CONTAINER_NAME:?}" \
 	--restart on-failure:3 \
-	--log-opt max-size=32m \
-	--publish '127.0.0.1:2049:2049/tcp' \
 	--cap-add DAC_READ_SEARCH \
-	--mount type=tmpfs,dst=/mnt/ \
+	--publish 127.0.0.1:2049:2049/tcp \
+	--mount type=volume,src="${CONTAINER_NAME:?}-data",dst=/mnt/ \
 	"${IMAGE_NAME:?}" "$@" >/dev/null
 
 printf '%s\n\n' 'Done!'

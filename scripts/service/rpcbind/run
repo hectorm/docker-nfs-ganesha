@@ -1,8 +1,0 @@
-#!/bin/sh
-
-set -eu
-
-rm -rf /run/rpcbind.lock /run/rpcbind.sock
-
-exec 2>&1
-exec rpcbind -f
