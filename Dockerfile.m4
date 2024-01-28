@@ -17,11 +17,13 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		flex \
 		git \
 		libacl1-dev \
+		libblkid-dev \
 		libcap-dev \
 		libjemalloc-dev \
 		liburcu-dev \
 		ninja-build \
 		pkg-config \
+		uuid-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
 ARG NFS_GANESHA_TREEISH=V5.7
@@ -61,7 +63,7 @@ RUN cmake -G Ninja -S ./src/ -B ./build/ \
 		-D USE_NFSIDMAP=OFF \
 		-D USE_MONITORING=OFF \
 		-D USE_CAPS=ON \
-		-D USE_BLKID=OFF \
+		-D USE_BLKID=ON \
 		-D USE_GSS=OFF \
 		-D USE_9P=OFF \
 		-D USE_NFS3=OFF \
@@ -86,10 +88,12 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 	&& apt-get install -y --no-install-recommends \
 		catatonit \
 		libacl1 \
+		libblkid1 \
 		libcap2 \
 		libjemalloc2 \
 		libtirpc-common \
 		liburcu8 \
+		libuuid1 \
 	&& rm -rf /var/lib/apt/lists/*
 
 ENV PATH=/usr/local/bin:${PATH}
