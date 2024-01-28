@@ -20,6 +20,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		libblkid-dev \
 		libcap-dev \
 		libjemalloc-dev \
+		libsqlite3-dev \
 		liburcu-dev \
 		ninja-build \
 		pkg-config \
@@ -48,7 +49,7 @@ RUN cmake -G Ninja -S ./src/ -B ./build/ \
 		-D USE_FSAL_VFS=ON \
 		-D ENABLE_VFS_POSIX_ACL=ON \
 		-D USE_FSAL_MEM=ON \
-		-D USE_FSAL_PROXY_V4=OFF \
+		-D USE_FSAL_PROXY_V4=ON \
 		-D USE_FSAL_PROXY_V3=OFF \
 		-D USE_FSAL_LUSTRE=OFF \
 		-D USE_FSAL_LIZARDFS=OFF \
@@ -91,6 +92,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		libblkid1 \
 		libcap2 \
 		libjemalloc2 \
+		libsqlite3-0 \
 		libtirpc-common \
 		liburcu8 \
 		libuuid1 \
