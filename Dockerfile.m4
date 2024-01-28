@@ -49,6 +49,7 @@ RUN cmake -G Ninja -S ./src/ -B ./build/ \
 		-D USE_FSAL_VFS=ON \
 		-D ENABLE_VFS_POSIX_ACL=ON \
 		-D USE_FSAL_MEM=ON \
+		-D USE_FSAL_NULL=ON \
 		-D USE_FSAL_PROXY_V4=ON \
 		-D USE_FSAL_PROXY_V3=OFF \
 		-D USE_FSAL_LUSTRE=OFF \
@@ -59,7 +60,6 @@ RUN cmake -G Ninja -S ./src/ -B ./build/ \
 		-D USE_FSAL_XFS=OFF \
 		-D USE_FSAL_GPFS=OFF \
 		-D USE_FSAL_GLUSTER=OFF \
-		-D USE_FSAL_NULL=OFF \
 		-D USE_DBUS=OFF \
 		-D USE_NFSIDMAP=OFF \
 		-D USE_MONITORING=OFF \
