@@ -12,7 +12,7 @@ ENV LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH}
 ENV LIBRARY_PATH=/usr/local/lib:${LIBRARY_PATH}
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:${PKG_CONFIG_PATH}
 
-RUN mkdir -p /var/lib/nfs/ganesha/
+RUN mkdir /export/ /recovery/
 
 ##################################################
 ## "build" stage

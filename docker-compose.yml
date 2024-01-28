@@ -29,13 +29,13 @@ services:
     volumes:
       - { type: "tmpfs", target: "/run/" }
       - { type: "tmpfs", target: "/tmp/" }
-      - { type: "tmpfs", target: "/var/lib/nfs/ganesha/" }
-      - { type: "volume", source: "nfs-ganesha-data", target: "/mnt/" }
+      - { type: "tmpfs", target: "/recovery/" }
+      - { type: "volume", source: "nfs-ganesha-export", target: "/export/" }
 
 volumes:
 
-  nfs-ganesha-data:
-    name: "nfs-ganesha-data"
+  nfs-ganesha-export:
+    name: "nfs-ganesha-export"
 
 networks:
 
