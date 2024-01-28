@@ -1,11 +1,24 @@
 m4_changequote([[, ]])
 
 ##################################################
+## "base" stage
+##################################################
+
+m4_ifdef([[CROSS_ARCH]], [[FROM docker.io/CROSS_ARCH/debian:sid-slim]], [[FROM docker.io/debian:sid-slim]]) AS base
+m4_ifdef([[CROSS_QEMU]], [[COPY --from=docker.io/hectorm/qemu-user-static:latest CROSS_QEMU CROSS_QEMU]])
+
+ENV PATH=/usr/local/bin:${PATH}
+ENV LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH}
+ENV LIBRARY_PATH=/usr/local/lib:${LIBRARY_PATH}
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:${PKG_CONFIG_PATH}
+
+RUN mkdir -p /var/lib/nfs/ganesha/
+
+##################################################
 ## "build" stage
 ##################################################
 
-m4_ifdef([[CROSS_ARCH]], [[FROM docker.io/CROSS_ARCH/debian:sid-slim]], [[FROM docker.io/debian:sid-slim]]) AS build
-m4_ifdef([[CROSS_QEMU]], [[COPY --from=docker.io/hectorm/qemu-user-static:latest CROSS_QEMU CROSS_QEMU]])
+FROM base AS build
 
 RUN export DEBIAN_FRONTEND=noninteractive \
 	&& apt-get update \
@@ -77,14 +90,14 @@ RUN export DEB_BUILD_MAINT_OPTIONS='hardening=+all' \
 		-D USE_GUI_ADMIN_TOOLS=OFF \
 		-D USE_MAN_PAGE=OFF \
 		-D RPCBIND=OFF \
-	&& ninja -C ./build/ install
+	&& ninja -C ./build/ install \
+	&& /usr/local/bin/ganesha.nfsd -v
 
 ###################################################
 ### "main" stage
 ###################################################
 
-m4_ifdef([[CROSS_ARCH]], [[FROM docker.io/CROSS_ARCH/debian:sid-slim]], [[FROM docker.io/debian:sid-slim]]) AS main
-m4_ifdef([[CROSS_QEMU]], [[COPY --from=docker.io/hectorm/qemu-user-static:latest CROSS_QEMU CROSS_QEMU]])
+FROM base AS main
 
 RUN export DEBIAN_FRONTEND=noninteractive \
 	&& apt-get update \
@@ -99,11 +112,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		liburcu8 \
 		libuuid1 \
 	&& rm -rf /var/lib/apt/lists/*
-
-ENV PATH=/usr/local/bin:${PATH}
-ENV LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH}
-
-RUN mkdir -p /var/lib/nfs/ganesha/
 
 COPY --from=build --chown=root:root /usr/local/ /usr/local/
 COPY --chown=root:root --chmod=644 ./config/ganesha/ /etc/ganesha/
