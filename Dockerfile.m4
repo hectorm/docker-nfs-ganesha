@@ -14,6 +14,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		build-essential \
 		ca-certificates \
 		cmake \
+		dpkg-dev \
 		flex \
 		git \
 		libacl1-dev \
@@ -36,12 +37,14 @@ RUN git checkout "${NFS_GANESHA_TREEISH:?}"
 RUN git submodule update --init --recursive
 # Fixes https://bugs.gentoo.org/902995
 RUN git -C ./src/libntirpc/ cherry-pick -n 1f9bb775d02b8b894f12d8408e35275e329b2da6
-RUN cmake -G Ninja -S ./src/ -B ./build/ \
+RUN export DEB_BUILD_MAINT_OPTIONS='hardening=+all' \
+	&& export CPPFLAGS="$(dpkg-buildflags --get CPPFLAGS)" \
+	&& export CFLAGS="$(dpkg-buildflags --get CFLAGS)" \
+	&& export CXXFLAGS="$(dpkg-buildflags --get CXXFLAGS)" \
+	&& export LDFLAGS="$(dpkg-buildflags --get LDFLAGS)" \
+	&& cmake -G Ninja -S ./src/ -B ./build/ \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_INSTALL_PREFIX=/usr/local \
-		-D CMAKE_INSTALL_BINDIR=/usr/local/bin \
-		-D CMAKE_INSTALL_LIBDIR=/usr/local/lib \
-		-D CMAKE_INSTALL_INCLUDEDIR=/usr/local/include \
 		-D SYSCONFDIR=/etc \
 		-D SYSSTATEDIR=/var \
 		-D RUNTIMEDIR=/run \
@@ -74,8 +77,7 @@ RUN cmake -G Ninja -S ./src/ -B ./build/ \
 		-D USE_GUI_ADMIN_TOOLS=OFF \
 		-D USE_MAN_PAGE=OFF \
 		-D RPCBIND=OFF \
-		../src/
-RUN ninja -C ./build/ install
+	&& ninja -C ./build/ install
 
 ###################################################
 ### "main" stage
