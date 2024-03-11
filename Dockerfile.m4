@@ -34,6 +34,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		libblkid-dev \
 		libcap-dev \
 		libjemalloc-dev \
+		libnsl-dev \
 		libsqlite3-dev \
 		liburcu-dev \
 		ninja-build \
@@ -107,6 +108,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		libblkid1 \
 		libcap2 \
 		libjemalloc2 \
+		libnsl2 \
 		libsqlite3-0 \
 		libtirpc-common \
 		liburcu8 \
