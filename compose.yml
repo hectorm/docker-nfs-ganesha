@@ -27,10 +27,10 @@ services:
     ports:
       - "127.0.0.1:2049:2049/tcp"
     volumes:
+      - { type: "volume", source: "nfs-ganesha-export", target: "/export/" }
       - { type: "tmpfs", target: "/run/" }
       - { type: "tmpfs", target: "/tmp/" }
       - { type: "tmpfs", target: "/recovery/" }
-      - { type: "volume", source: "nfs-ganesha-export", target: "/export/" }
 
 volumes:
 
