@@ -42,15 +42,13 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		uuid-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
-ARG NFS_GANESHA_TREEISH=V5.7
+ARG NFS_GANESHA_TREEISH=V5.9
 ARG NFS_GANESHA_REMOTE=https://github.com/nfs-ganesha/nfs-ganesha.git
 RUN mkdir /tmp/nfs-ganesha/
 WORKDIR /tmp/nfs-ganesha/
 RUN git clone "${NFS_GANESHA_REMOTE:?}" ./
 RUN git checkout "${NFS_GANESHA_TREEISH:?}"
 RUN git submodule update --init --recursive
-# Fixes https://bugs.gentoo.org/902995
-RUN git -C ./src/libntirpc/ cherry-pick -n 1f9bb775d02b8b894f12d8408e35275e329b2da6
 RUN export DEB_BUILD_MAINT_OPTIONS='hardening=+all' \
 	&& export CPPFLAGS="$(dpkg-buildflags --get CPPFLAGS)" \
 	&& export CFLAGS="$(dpkg-buildflags --get CFLAGS)" \
