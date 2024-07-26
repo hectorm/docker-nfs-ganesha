@@ -108,7 +108,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		libnsl2 \
 		libsqlite3-0 \
 		libtirpc-common \
-		liburcu8 \
+		liburcu8t64 \
 		libuuid1 \
 	&& rm -rf /var/lib/apt/lists/*
 
