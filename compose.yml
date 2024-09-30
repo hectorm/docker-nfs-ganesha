@@ -22,6 +22,7 @@ services:
       - "FSETID"
       - "SETGID"
       - "SETUID"
+      - "SYS_RESOURCE"
     networks:
       - "nfs-ganesha"
     ports:

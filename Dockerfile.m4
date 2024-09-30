@@ -41,7 +41,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		uuid-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
-ARG NFS_GANESHA_TREEISH=V5.9
+ARG NFS_GANESHA_TREEISH=V6.1
 ARG NFS_GANESHA_REMOTE=https://github.com/nfs-ganesha/nfs-ganesha.git
 RUN mkdir /tmp/nfs-ganesha/
 WORKDIR /tmp/nfs-ganesha/
@@ -81,7 +81,6 @@ RUN export DEB_BUILD_MAINT_OPTIONS='hardening=+all' \
 		-D USE_BLKID=ON \
 		-D USE_GSS=OFF \
 		-D USE_9P=OFF \
-		-D USE_NFS3=OFF \
 		-D USE_RQUOTA=OFF \
 		-D USE_RADOS_RECOV=OFF \
 		-D USE_ADMIN_TOOLS=OFF \
