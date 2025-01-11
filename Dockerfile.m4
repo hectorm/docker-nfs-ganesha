@@ -41,7 +41,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		uuid-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
-ARG NFS_GANESHA_TREEISH=V6.4
+ARG NFS_GANESHA_TREEISH=V6.5
 ARG NFS_GANESHA_REMOTE=https://github.com/nfs-ganesha/nfs-ganesha.git
 RUN mkdir /tmp/nfs-ganesha/
 WORKDIR /tmp/nfs-ganesha/
