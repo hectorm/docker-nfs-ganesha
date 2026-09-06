@@ -32,16 +32,18 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		libacl1-dev \
 		libblkid-dev \
 		libcap-dev \
+		libdbus-1-dev \
 		libjemalloc-dev \
 		libnsl-dev \
 		libsqlite3-dev \
+		libssl-dev \
 		liburcu-dev \
 		ninja-build \
 		pkg-config \
 		uuid-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
-ARG NFS_GANESHA_TREEISH=V7.1
+ARG NFS_GANESHA_TREEISH=V15.2
 ARG NFS_GANESHA_REMOTE=https://github.com/nfs-ganesha/nfs-ganesha.git
 RUN mkdir /tmp/nfs-ganesha/
 WORKDIR /tmp/nfs-ganesha/
@@ -74,7 +76,7 @@ RUN export DEB_BUILD_MAINT_OPTIONS='hardening=+all' \
 		-D USE_FSAL_XFS=OFF \
 		-D USE_FSAL_GPFS=OFF \
 		-D USE_FSAL_GLUSTER=OFF \
-		-D USE_DBUS=OFF \
+		-D USE_DBUS=ON \
 		-D USE_NFSIDMAP=OFF \
 		-D USE_MONITORING=OFF \
 		-D USE_CAPS=ON \
@@ -104,6 +106,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 		libacl1 \
 		libblkid1 \
 		libcap2 \
+		libdbus-1-3 \
 		libjemalloc2 \
 		libnsl2 \
 		libsqlite3-0 \
